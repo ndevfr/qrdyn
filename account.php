@@ -11,7 +11,7 @@ if(connected()):
 		if(!empty($_POST['password'])){
 			if($_POST['password'] == $_POST['password2']){
 				$password = password_hash(PREF.$_POST['password'].SUFF, PASSWORD_BCRYPT);
-				sql_exec("UPDATE `users` SET password = '$password' WHERE id = $id;");
+				sql_exec("UPDATE `".DB_PREF."users` SET password = '$password' WHERE id = $id;");
 			} else {
 				$error = __("Les deux mots de passe sont différents.");
 			}
@@ -19,7 +19,7 @@ if(connected()):
 		if( $_POST['mail'] != $mail ){
 			if(filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)){
 				$mail = addslashes(strtolower($_POST['mail']));
-				sql_exec("UPDATE `users` SET mail = '$mail' WHERE id = $id;");
+				sql_exec("UPDATE `".DB_PREF."users` SET mail = '$mail' WHERE id = $id;");
 			} else {
 				$error = __("L'adresse mail n'est pas valide.");
 			}
@@ -56,7 +56,7 @@ if(connected()):
 	<div id="errors"><p><?php echo $error; ?></p></div>
 	<?php
 else:
-	echo "<p>".__("Non connecté.").'</p><p><a href="'.$HOME.'">'.__("Retour à la page d'accueil")."</a></p>";
+	echo "<p>".__("Non connecté.").'</p><p><a href="'.SITE_URL.'">'.__("Retour à la page d'accueil")."</a></p>";
 endif;
 echo "</div>";
 include("footer.php");
