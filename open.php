@@ -34,5 +34,3 @@ if($r != false){
 }
 include('footer.php');
 ?>
-</body>
-</html>
