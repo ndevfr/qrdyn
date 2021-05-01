@@ -24,7 +24,7 @@ if($r != false){
 } else {
 	$links = $r['links'];
 	echo "<div id='page-back'><div id='page-header'><div id='page-title'>".__("Désolé, ce lien n'existe pas...")."</div>";
-	echo "<div id='page-description'>".__("Vérifiez que vous n'avez pas fait d'erreur en le recopiant ou utiliser le QR-code associé s'il est fournit...")."</div></div></div><div id='shadow'>";
+	echo "<div id='page-description'>".__("Vérifiez que vous n'avez pas fait d'erreur en le recopiant ou utilisez le QR-code associé s'il est fournit...")."</div></div></div><div id='shadow'>";
 	$url = $link[1];
 	$title = $link[0];
 	echo "<div class='card-link'>";
