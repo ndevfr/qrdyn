@@ -1,0 +1,18 @@
+<?php
+// Variables de connexion a la BDD
+const DB_HOST = '';
+const DB_NAME = '';
+const DB_USER = '';
+const DB_PASS = '';
+const DB_PREF = '';
+// Personnalisation de l'interface
+const SITE_TITLE = '';
+const SITE_URL = '';
+const SITE_LOGO = '';
+const SITE_COLOR = '';
+// Salt pour les mots de passe
+const PREF = '';
+const SUFF = '';
+// Inscriptions possibles
+const INSC_OPEN = false;
+?>
