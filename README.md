@@ -9,6 +9,9 @@ Plateforme permettant la gestion de QR-codes dynamiques (référant à plusieurs
 
 # Comment la tester ?
 C'est possible de tester la plateforme sur ce lien : https://qr.desmaths.fr
+
 login : testqr72@desmaths.fr
+
 pass : testQR72
+
 Attention, les QR-codes créés avec ce compte seront supprimés très régulièrement...
