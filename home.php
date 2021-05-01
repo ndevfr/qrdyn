@@ -12,7 +12,7 @@ if((!empty($_POST['create']))&&(INSC_OPEN)){
 			if($_POST['password'] == $_POST['password2']){
 				$mail = addslashes(strtolower($_POST['mail']));
 				$password = password_hash(PREF.$_POST['password'].SUFF, PASSWORD_BCRYPT);
-				$sql = "INSERT INTO `users` (mail, password) VALUES ('$mail', '$password');";
+				$sql = "INSERT INTO `".DB_PREF."users` (mail, password) VALUES ('$mail', '$password');";
 				if(sql_exec($sql)){
 					$error = __("Le compte a été créé.");
 				} else {
