@@ -100,6 +100,7 @@ else:
 	?>
 	<h1><?php _e("Présentation"); ?></h1>
 	<p><?php _e("qr.desmaths.fr permet de créer des qr-codes dynamiques (avec liens multiples)."); ?></p>
+	<a href="qr/" class="menu-button"><?php _e("Créer un QR-code statique"); ?></a>
 	<a href="scan/" class="menu-button"><?php _e("Scanner un QR-code"); ?></a>
 	<div id="ConnectAccount">
 	<h1><?php _e("Se connecter"); ?></h1>
