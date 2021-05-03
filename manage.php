@@ -10,7 +10,7 @@ if(connected()):
 	}
 	if(in_array($id, userLinks())):
 		if(!empty($_POST['sending'])){
-			if(removeLink($id){
+			if(removeLink($id)){
 				header('Location: '.SITE_URL);
 			}
 		}
