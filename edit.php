@@ -35,9 +35,9 @@ if(connected()):
 			}
 			echo $postlinks;
 			if($modif){
-				$sql = "UPDATE `links` SET title = '$posttitle', description = '$postdescription', links = '$postlinks' WHERE id = '$id';";
+				$sql = "UPDATE `".DB_PREF."links` SET title = '$posttitle', description = '$postdescription', links = '$postlinks' WHERE id = '$id';";
 			} else {
-				$sql = "INSERT INTO `links` (id, title, description, links, owner) VALUES ('$id', '$posttitle', '$postdescription', '$postlinks', $user);";
+				$sql = "INSERT INTO `".DB_PREF."links` (id, title, description, links, owner) VALUES ('$id', '$posttitle', '$postdescription', '$postlinks', $user);";
 			}
 			if(!sql_exec($sql)) die(__("Erreur lors de l'enregistrement."));
 			header('Location: '.SITE_URL.'v/'.$id);
