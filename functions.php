@@ -183,6 +183,14 @@ function uniqueId($id){
 	}
 }
 
+function isLockee($url){
+	$vid = "";
+	if( strpos($url, 'lockee.fr/o/') !== false ){
+		$vid = $url;
+	}
+	return $vid;
+}
+
 function isvideo($url){
 	$vid = "";
 	// Youtube
