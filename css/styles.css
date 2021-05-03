@@ -199,6 +199,11 @@ textarea{
 	height:0;
 	padding-bottom:56.25%;
 }
+.lockee{
+	height:500px;
+	width:100%;
+	margin:auto;
+}
 .video-player{
 	border:0;
 	position:absolute;
