@@ -11,9 +11,13 @@ if($r != false){
 		$title = $link[0];
 		echo "<div class='card-link'>";
 		$vid = isvideo($url);
+		$loc = isLockee($url);
 		if (!empty($vid)) {
 			echo "<div class='card-title'>".$title."</div>";
 			echo "<div class='video'><iframe class='video-player' width='560' height='315' src='$vid' title='$title' frameborder='0' allowfullscreen></iframe></div>";
+		} else if (!empty($loc)) {
+			echo "<div class='card-title'>".$title."</div>";
+			echo "<div class='lockee'><iframe src='$loc' title='$title' height='500' width='100%' frameborder='0' allowfullscreen></iframe></div>";
 		} else {
 			echo "<div class='card-title'>".$title."</div>";
 			echo "<a class='active-btn' href='$url'>Accéder à la ressource</a>";
