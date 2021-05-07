@@ -16,7 +16,7 @@ if(connected()):
 		}
 	
 		$linkInfos = linkInfos($id);
-		$thelink = SITE_URL."/$id";
+		$thelink = SITE_URL."$id";
 		if($del):
 			?>
 			<form action="" method="POST" name="remove" id="remove">
