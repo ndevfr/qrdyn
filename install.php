@@ -25,7 +25,7 @@
 include("functions.php");
 $result = "";
 if(!empty($_POST['install'])){
-	$file = fopen("config2.php", "w+");
+	$file = fopen("config.php", "w+");
 	fwrite($file,"<?php\r\n");
 	fwrite($file,"// Variables de connexion a la BDD\r\n");
 	fwrite($file,"const DB_HOST = '".$_POST['bdd_host']."';\r\n");
