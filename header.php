@@ -15,7 +15,7 @@
 	a, a:hover, a:visited{
 		color:<?php echo SITE_COLOR; ?>;
 	}
-	#header, #page-header, .menu-button, .active-btn{
+	#header, #page-header, .menu-button, .submit-button, .active-btn{
 		background:<?php echo SITE_COLOR; ?>;
 	}
 	#page-back{

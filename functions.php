@@ -1,6 +1,6 @@
 <?php
 // Informations generales
-const VERSION = '1.0.03';
+const VERSION = '1.0.07';
 include("config.php");
 
 function _e( $text ) {

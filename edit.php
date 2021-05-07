@@ -54,12 +54,12 @@ if(connected()):
 				<?php
 				for($i=0; $i<max(sizeof($links),1); $i++){
 					$l = $links[$i];
-					echo "<tr><td><input type='text' id='inputtitlelink-$i' name='inputtitlelink[$i]' class='link-title field' placeholder='...' value=\"$l[0]\" /></td><td><input type='text' id='inputurllink-$i' name='inputurllink[$i]' class='link-url field' placeholder='https://...' value=\"$l[1]\" /></td></tr>";
+					echo "<tr id='trlink-$i'><td><input type='text' id='inputtitlelink-$i' name='inputtitlelink[$i]' class='link-title field' placeholder='...' value=\"$l[0]\" /></td><td><input type='text' id='inputurllink-$i' name='inputurllink[$i]' class='link-url field' placeholder='https://...' value=\"$l[1]\" /></td><td style='width:36px;'><input type='button' onclick='supprlink($i)' class='suppr' value='X' /></td></tr>";
 				}
 				?>
 			</table>
 			<a id="addInput" class="active-btn">Ajouter un lien</a>
-	    	<input type="submit" name="sending" value="Envoyer" class="menu-button" />
+	    	<table style="width:100%"><tr><td><input type="button" name="cancel" value="Annuler" class="cancel-button" onclick="returnHome();" /></td><td><input type="submit" name="sending" value="Envoyer" class="submit-button" /></td></tr></table>
 	    	</form>
 	    	<div id="errors"></div>
 	    	<script type="text/javascript" src="<?php echo SITE_URL; ?>js/edit.min.js?v=<?php echo VERSION; ?>"></script>
