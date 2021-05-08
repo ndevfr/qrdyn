@@ -1,26 +1,16 @@
-########################
-### OPTIONS COMMUNES ###
-########################
-Options -Indexes
-php_flag opcache.enable Off
+<Files ".htaccess">
+Order Allow,Deny
+Deny from all
+</Files>
 
-###########################
-### REDIRECTION - HTTPS ###
-###########################
-<IfModule mod_rewrite.c>
-	RewriteEngine On
-	RewriteCond %{HTTP:X-Forwarded-Proto} !https
-	RewriteCond %{HTTPS} !on
-	RewriteRule ^(.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-</IfModule>
+Options All -Indexes
 
-############################
-### REDIRECTION - NORMAL ###
-############################
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteRule ^index\.php$ - [L]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
+RewriteRule ^.*$ /index.php [L]
 </IfModule>
