@@ -11,6 +11,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="<?php echo SITE_URL; ?>css/styles.css?v=<?php echo VERSION; ?>" />
+<link rel="stylesheet" href="<?php echo SITE_URL; ?>css/custom.css?v=<?php echo VERSION; ?>" />
 	<style type="text/css">
 	a, a:hover, a:visited{
 		color:<?php echo SITE_COLOR; ?>;

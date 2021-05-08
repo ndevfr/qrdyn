@@ -54,7 +54,7 @@ if(connected()):
 	<h1><?php _e("Générer un nouveau token de connexion :"); ?></h1>
 	<p><?php _e("Token actuel :"); ?></p>
 	<?php if(TOKEN_ALLOW): ?>
-	<textarea id="token" onclick="this.select();document.execCommand('copy');"><?php echo $user['token']; ?></textarea>
+	<textarea id="token" onclick="this.select();document.execCommand('copy');"><?php echo SITE_URL."?token=".$user['token']; ?></textarea>
 	<form action="" name="generatingToken" method="POST">
 	<input type="submit" name="regenToken" class="menu-button" value="<?php _e("Générer un nouveau token"); ?>" />
 	</form>
@@ -68,7 +68,7 @@ if(connected()):
 	<div id="errors"><p><?php echo $error; ?></p></div>
 	<?php
 else:
-	echo "<p>".__("Non connecté.").'</p><p><a href="'.$HOME.'">'.__("Retour à la page d'accueil")."</a></p>";
+	echo "<p>".__("Non connecté.").'</p><p><a href="'.SITE_URL.'">'.__("Retour à la page d'accueil")."</a></p>";
 endif;
 echo "</div>";
 include("footer.php");

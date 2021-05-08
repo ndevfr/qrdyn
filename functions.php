@@ -1,6 +1,6 @@
 <?php
 // Informations generales
-const VERSION = '1.0.10';
+const VERSION = '1.0.15';
 include("config.php");
 
 function _e( $text ) {
@@ -194,7 +194,7 @@ function isvideo($url){
 		$regex = '/^https?:\/\/(?:(?:www|m)\.)?(?:youtube\.com\/watch(?:\?v=|\?.+?&v=)|youtu\.be\/)([a-z0-9_-]+)$/i';
 		if ( preg_match($regex, $url, $results) ) {
 			$id = $results[1];
-			$vid = 'https://www.youtube.com/embed/'.$id.'?rel=0showinfo=0&theme=light';
+			$vid = 'https://www.youtube.com/embed/'.$id.'?rel=0&showinfo=0&theme=light';
 		}
 	// Vimeo
 	} else if( strpos($url, 'vimeo.com') !== false ){
