@@ -1,6 +1,3 @@
-########################
-### OPTIONS COMMUNES ###
-########################
 <Files ".htaccess">
 Order Allow,Deny
 Deny from all
