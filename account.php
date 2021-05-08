@@ -25,6 +25,10 @@ if(connected()):
 			}
 		}	
 	}
+	if(!empty($_POST['regenToken'])){
+		$newToken = creation_token();
+		sql_exec("UPDATE `".DB_PREF."users` SET token = '$newToken' WHERE id = $id;");
+	}
 	if(!empty($_POST['removeAccount'])){
 		if(!empty($_POST['password'])){
 			if(connect($_SESSION['name'], $_POST['password'])){
@@ -47,6 +51,14 @@ if(connected()):
 	<label><em><?php _e("Le mot de passe doit contenir 6 caractères dont au moins un chiffre, une minuscule et une majuscule."); ?></em></label><br />
 	<input type="submit" name="editAccount" class="menu-button" value="<?php _e("Modifier le compte"); ?>" />
 	</form>
+	<h1><?php _e("Générer un nouveau token de connexion :"); ?></h1>
+	<p><?php _e("Token actuel :"); ?></p>
+	<?php if(TOKEN_ALLOW): ?>
+	<textarea id="token" onclick="this.select();document.execCommand('copy');"><?php echo $user['token']; ?></textarea>
+	<form action="" name="generatingToken" method="POST">
+	<input type="submit" name="regenToken" class="menu-button" value="<?php _e("Générer un nouveau token"); ?>" />
+	</form>
+	<?php endif; ?>
 	<h1><?php _e("Supprimer mon compte"); ?></h1>
 	<form action="" name="removingAccount" method="POST">
 	<p><?php _e("Mot de passe du compte :"); ?></p>
@@ -56,7 +68,7 @@ if(connected()):
 	<div id="errors"><p><?php echo $error; ?></p></div>
 	<?php
 else:
-	echo "<p>".__("Non connecté.").'</p><p><a href="'.SITE_URL.'">'.__("Retour à la page d'accueil")."</a></p>";
+	echo "<p>".__("Non connecté.").'</p><p><a href="'.$HOME.'">'.__("Retour à la page d'accueil")."</a></p>";
 endif;
 echo "</div>";
 include("footer.php");

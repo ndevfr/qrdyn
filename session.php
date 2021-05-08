@@ -8,4 +8,11 @@ session_set_cookie_params([
 ]);
 session_name('qr');
 session_start();
+
+if(TOKEN_ALLOW){
+	if((!empty($_GET['token']))&&(!connected())){
+		$token = onlyAlphaNum($_GET['token']);
+		connect_token($token);
+	}
+}
 ?>

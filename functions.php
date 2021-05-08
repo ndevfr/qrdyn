@@ -1,6 +1,6 @@
 <?php
 // Informations generales
-const VERSION = '1.0.07';
+const VERSION = '1.0.10';
 include("config.php");
 
 function _e( $text ) {
@@ -80,24 +80,20 @@ function sql_count($sql) {
 function connect($mail, $pass) {
 	global $error;
 	$mail = addslashes(strtolower($mail));
-	$connected = false;
 	if($user = sql_select_unique("SELECT * FROM `".DB_PREF."users` WHERE mail = '$mail';")){
 		$id = $user['id'];
 		$hash = $user['password'];
 		if(password_verify(PREF.$pass.SUFF, $hash)){
-			$connected = true;
+			$_SESSION['user'] = $user['id'];
+			$_SESSION['name'] = $user['mail'];
+			return true;
 		} else {
-			echo "pb";
+			$error = __("Identifiants inconnus.");
+			$_SESSION['user'] = "";
+			$_SESSION['name'] = "";
+			return false;
 		}
 	}
-	if(!$connected){
-		$error = __("Identifiants inconnus.");
-		$_SESSION['user'] = "";
-		$_SESSION['name'] = "";
-	} else {
-		$_SESSION['user'] = $user['id'];
-		$_SESSION['name'] = $user['mail'];
-	 }
 }
 
 function connected() {
@@ -254,5 +250,46 @@ function displayControls($cid, $exclude = "", $txt = 0){
 		$controls .= "<a class='controls' href='".SITE_URL."s/$cid' title='".__("Supprimer")."'><div class='img-controls s'></div><div class='l'>$cs</div></a>";
 	}
 	return $controls;
+}
+
+function tobase62($number){
+	$tobase = 62;
+	$map = implode('',array_merge(range(0,9),range('a','z'),range('A','Z')));
+	$map_base = substr($map,0,$tobase);
+	$tobase = strlen($map_base);
+	$result = '';
+	while ($number >= $tobase) {
+		$result = $map_base[$number%$tobase].$result;
+		$number /= $tobase;
+	}
+	return $map_base[$number].$result;		
+}
+
+
+function creation_token(){
+	$chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	$hash = $_SESSION['user'].time();
+	$token = tobase62($hash);
+	while(strlen($token)<100){
+		$token .= $chars[rand(0, strlen($chars)-1)];
+	}
+	return $token;
+}
+
+function connect_token($token) {
+	if(!empty($token)){
+		if($user = sql_select_unique("SELECT * FROM `".DB_PREF."users` WHERE token = '$token';")){
+			$_SESSION['user'] = $user['id'];
+			$_SESSION['name'] = $user['mail'];
+			return true;
+		} else {
+			$error = __("Token introuvable.");
+			$_SESSION['user'] = "";
+			$_SESSION['name'] = "";
+			return false;
+		}
+	} else {
+		return false;
+	}
 }
 ?>

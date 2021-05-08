@@ -44,6 +44,8 @@ if(!empty($_POST['install'])){
 	fwrite($file,"// Salt pour les mots de passe\r\n");
 	fwrite($file,"const PREF = '".$_POST['site_pref']."';\r\n");
 	fwrite($file,"const SUFF = '".$_POST['site_suff']."';\r\n");
+	fwrite($file,"// Connexion avec token possible\r\n");
+	fwrite($file,"const TOKEN_ALLOW = ".$_POST['site_token'].";\r\n");
 	fwrite($file,"// Inscriptions possibles\r\n");
 	fwrite($file,"const INSC_OPEN = ".$_POST['site_insc'].";\r\n");
 	fclose($file);
@@ -59,13 +61,13 @@ if(!empty($_POST['install'])){
 	} else {
 		$result .= "Erreur lors de la création de la table de données ".$_POST['bdd_pref']."links.<br />";
 	}
-	$sql = "CREATE TABLE `".$_POST['bdd_pref']."users` (`id` INT(11) NOT NULL AUTO_INCREMENT, `mail` VARCHAR(255) NOT NULL, `password` VARCHAR(255) NOT NULL, PRIMARY KEY (`id`)) DEFAULT CHARSET=utf16;";
+	$sql = "CREATE TABLE `".$_POST['bdd_pref']."users` (`id` INT(11) NOT NULL AUTO_INCREMENT, `mail` VARCHAR(255) NOT NULL, `password` VARCHAR(255) NOT NULL, `token`  VARCHAR(255) NOT NUL, PRIMARY KEY (`id`)) DEFAULT CHARSET=utf16;";
 	if($link->query($sql) == true){
 		$result .= "Table de données ".$_POST['bdd_pref']."users créée.<br />";
 	} else {
 		$result .= "Erreur lors de la création de la table de données ".$_POST['bdd_pref']."users.<br />";
 	}
-	$password = password_hash($_POST['site_pref'].$_POST['password'].$_POST['site_suff'], PASSWORD_BCRYPT);
+	$password = password_hash($_POST['site_pref'].$_POST['account_pass'].$_POST['site_suff'], PASSWORD_BCRYPT);
 	$sql = "INSERT INTO `".$_POST['bdd_pref']."users` (`mail`, `password`) VALUES
 	('".$_POST['account_mail']."', '.$password.')";
 	if($link->query($sql) == true){
@@ -94,6 +96,7 @@ echo __("URL du site")." : <input type='text' id='site_url' name='site_url' clas
 echo __("Logo du site")." : <input type='text' id='site_logo' name='site_logo' class='field' placeholder='https://qr.desmaths.fr/logo.png' value='".$_POST['site_logo']."' /><br />";
 echo __("Couleur principale (format hexadecimal)")." : <input type='text' id='site_color' name='site_color' class='field' placeholder='#d92341' value='".$_POST['site_color']."' /><br />";
 echo __("Inscriptions possibles")." : <select id='site_insc' name='site_insc' class='field'><option value='false'>Non</option><option value='true'>Oui</option></select>";
+echo __("Connexion avec token possible")." : <select id='site_token' name='site_token' class='field'><option value='false'>Non</option><option value='true'>Oui</option></select>";
 echo __("Prefixe SALT pour les mots de passe")." : <input type='text' id='site_pref' name='site_pref' class='field' placeholder='prefix4pass' value='".$_POST['site_pref']."' /><br />";
 echo __("Suffixe SALT pour les mots de passe")." : <input type='text' id='site_suff' name='site_suff' class='field' placeholder='suffix4pass' value='".$_POST['site_suff']."' /><br />";
 echo "<input type='submit' name='install' class='menu-button' value='".__("Installer")."' /></form>";

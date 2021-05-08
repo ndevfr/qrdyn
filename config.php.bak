@@ -13,6 +13,8 @@ const SITE_COLOR = '';
 // Salt pour les mots de passe
 const PREF = '';
 const SUFF = '';
+// Connexion avec token possible
+const TOKEN_ALLOW = true;
 // Inscriptions possibles
 const INSC_OPEN = false;
 ?>
