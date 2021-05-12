@@ -1,4 +1,4 @@
-# qrdyn
+# QR dynamiques
 Plateforme permettant la gestion de QR-codes dynamiques (référant à plusieurs liens)
 
 # Comment l'utiliser ?
