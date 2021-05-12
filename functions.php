@@ -226,6 +226,23 @@ function isvideo($url){
 	return $vid;
 }
 
+
+function isMathalea($url){
+	$vid = "";
+	if( strpos($url, 'coopmaths.fr/') !== false ){
+		$vid = $url;
+	}
+	return $vid;
+}
+
+function isExerciseur($titre){
+	$vid = "";
+	if( strpos($titre, 'Exerciseur') !== false ){
+		$vid = $titre;
+	}
+	return $vid;
+}
+
 function displayControls($cid, $exclude = "", $txt = 0){
 	$controls = "";
 	if($txt == 1){
@@ -297,6 +314,18 @@ function connect_token($token) {
 		return false;
 	}
 }
+
+
+
+
+function ajoututilisateur($mail,$passwd)
+{
+	$password = password_hash(PREF.$passwd.SUFF, PASSWORD_BCRYPT);
+	$sql = "INSERT INTO `".DB_PREF."users` (`mail`, `password`) VALUES ('".$mail."', '".$password."')";
+	sql_exec($sql);
+}
+
+
 
 function add_to_home($html, $connected = true, $order = 0){
 	global $plugins_home_connected, $plugins_home;

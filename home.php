@@ -49,6 +49,7 @@ if(connected()):
 	<a href="compte/" class="menu-button"><?php _e("Gérer mon compte"); ?></a>
 	<a href="scan/" class="menu-button"><?php _e("Scanner un QR-code"); ?></a>
 	<?php
+	echo "<input type='text' onkeyup='recherche(this.value)' style='display:block' placeholder='Recherche parmi les liens'>";
 	foreach($plugins_home_connected as $home){
 		foreach($home as $h){
 			echo $h;
