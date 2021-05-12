@@ -1,7 +1,12 @@
 <?php
 // Informations generales
-const VERSION = '1.0.15';
+const VERSION = '1.0.20';
 include("config.php");
+
+$plugins_home = array();
+$plugins_home_connected = array();
+$plugins_edit = array();
+$plugins_manage = array();
 
 function _e( $text ) {
 	echo gettext($text);
@@ -292,4 +297,30 @@ function connect_token($token) {
 		return false;
 	}
 }
+
+function add_to_home($html, $connected = true, $order = 0){
+	global $plugins_home_connected, $plugins_home;
+	$plugins_home_connected[$order][] = $html;
+	if(!$connected){
+		$plugins_home[$order][] = $html;
+	}
+}
+
+function add_to_edit($html, $order = 0){
+	global $plugins_edit;
+	$plugins_edit[$order][] = $html;
+	if(!$connected){
+		$plugins_edit[$order][] = $html;
+	}
+}
+
+function add_to_manage($html, $order = 0){
+	global $plugins_manage;
+	$plugins_manage[$order][] = $html;
+	if(!$connected){
+		$plugins_manage[$order][] = $html;
+	}
+}
+
+//add_to_home("<a href='test/' class='menu-button'>Test menu 5</a>", false, 5);
 ?>

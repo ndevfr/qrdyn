@@ -8,6 +8,7 @@ const DB_PREF = '';
 // Personnalisation de l'interface
 const SITE_TITLE = '';
 const SITE_URL = '';
+const SITE_RSC = '';
 const SITE_LOGO = '';
 const SITE_COLOR = '';
 // Salt pour les mots de passe

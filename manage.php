@@ -1,20 +1,23 @@
 <?php 
-include("header.php");
-echo '<div id="main">';
-if(connected()): 
+if(connected()){
 	$id = addslashes($_GET['id']);
 	if(!empty($_GET['del'])){
 		$del = intval($_GET['del']);
 	} else {
 		$del = 0;
 	}
-	if(in_array($id, userLinks())):
+	if(in_array($id, userLinks())){
 		if(!empty($_POST['sending'])){
 			if(removeLink($id)){
 				header('Location: '.SITE_URL);
 			}
 		}
-	
+	}
+}
+include("header.php");
+echo '<div id="main">';
+if(connected()): 
+	if(in_array($id, userLinks())):
 		$linkInfos = linkInfos($id);
 		$thelink = SITE_URL."$id";
 		if($del):
@@ -28,7 +31,7 @@ if(connected()):
 			</table>
 			<input type="hidden" name="sending" value="1" />
 			</form>
-			<script type="text/javascript" src="<?php echo SITE_URL; ?>/js/remove.min.js?v=<?php echo VERSION; ?>"></script>
+			<script type="text/javascript" src="<?php echo SITE_RSC; ?>js/remove.min.js?v=<?php echo VERSION; ?>"></script>
 			<?php
 			echo "<h1>".$linkInfos['title']."</h1>";
 			echo displayControls($id, "s", 1);

@@ -1,3 +1,10 @@
+# V1.0.20
+- Correction du fichier install.php (bugs divers, passage en utf8, ajout de "SITE_RSC" dans config.php ; pour mettre à jour config.php à la main, rajouter une ligne "SITE_RSC" identique à "SITE_URL")
+- Prise en charge du mode http (et non https) si l'URL du site ne le contient pas
+- Correction de bugs divers dans "edit.php" et "manage.php" (notamment avec les redirections)
+- Utilisation de la fonction removeLink dans le fichier ajax-delete.php
+- Utilisation de la variable "SITE_RSC" pour les ressources css et js ainsi que les images
+
 # V1.0.15
 - Ajout du fichier css/custom.css pour permettre plus de personnalisation
 - Correction de différents bugs signalés

@@ -87,7 +87,6 @@ body{
 }
 .img-controls{
 	display:inline-block;
-	background-image:url("/images/controls.svg");
 	background-size:40px;
 	width:20px;
 	height:20px;
@@ -157,7 +156,6 @@ textarea{
 }
 .qrscan {
 	background: #DCDCDC;
-	background-image: url(/images/camera.png);
 	width: 280px;
 	height: 280px;
 	text-align: center;

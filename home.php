@@ -45,12 +45,17 @@ if(connected()):
 		<input type="submit" class="menu-button" name="logout" value="<?php _e("Se déconnecter"); ?>" />
 	</form>
 	<a href="c/" class="menu-button"><?php _e("Créer un QR-code dynamique"); ?></a>
-	<a href="qr/" class="menu-button"><?php _e("Créer un QR-code statique"); ?></a>
+	<a href="g/" class="menu-button"><?php _e("Créer un QR-code statique"); ?></a>
 	<a href="compte/" class="menu-button"><?php _e("Gérer mon compte"); ?></a>
 	<a href="scan/" class="menu-button"><?php _e("Scanner un QR-code"); ?></a>
 	<?php
+	foreach($plugins_home_connected as $home){
+		foreach($home as $h){
+			echo $h;
+		}
+	}
 	$userLinks = userLinks();
-	echo "<h2 style='display:inline;'><input type='checkbox' id='checkall' name='checkall' class='link' /><label for='checkall'>".__("QR-codes dynamiques")."</label></h2> <a class='controls' onclick='deleteselected();' title='".__("Supprimer la sélection")."'><div class='img-controls s'></div></a><span id='loading'><img src='images/loading.png' /></span><ul id='list-links' class='list-links'>";
+	echo "<h2 style='display:inline;'><input type='checkbox' id='checkall' name='checkall' class='link' /><label for='checkall'>".__("QR-codes dynamiques")."</label></h2> <a class='controls' onclick='deleteselected();' title='".__("Supprimer la sélection")."'><div class='img-controls s'></div></a><span id='loading'><img src='".SITE_RSC."images/loading.png' /></span><ul id='list-links' class='list-links'>";
 	foreach($userLinks as $l){
 		$i = linkInfos($l);
 		$cname = $i['title'];
@@ -100,8 +105,15 @@ else:
 	?>
 	<h1><?php _e("Présentation"); ?></h1>
 	<p><?php echo SITE_TITLE.__(" permet de créer des qr-codes dynamiques (avec liens multiples)."); ?></p>
-	<a href="qr/" class="menu-button"><?php _e("Créer un QR-code statique"); ?></a>
+	<a href="g/" class="menu-button"><?php _e("Créer un QR-code statique"); ?></a>
 	<a href="scan/" class="menu-button"><?php _e("Scanner un QR-code"); ?></a>
+	<?php
+	foreach($plugins_home as $home){
+		foreach($home as $h){
+			echo $h;
+		}
+	}
+	?>
 	<div id="ConnectAccount">
 	<h1><?php _e("Se connecter"); ?></h1>
 	<?php if(INSC_OPEN): ?>
@@ -110,7 +122,6 @@ else:
 	<form action="" name="connection" id="connection" method="POST">
 	<input type="text" class="field" placeholder="<?php _e("Adresse mail"); ?>" name="mail" />
 	<input type="password" class="field" placeholder="<?php _e("Mot de passe"); ?>" name="password" />
-	<em><a href="<?php echo $HOME; ?>recuperation/"><?php _e("Mot de passe oublié ?"); ?></a></em>
 	<input type="submit" name="login" class="menu-button" value="<?php _e("Se connecter"); ?>" />
 	</form>
 	</div>
@@ -126,7 +137,7 @@ else:
 	</form></div>
 	<?php endif; ?>
 	<div id="errors"><p><?php echo $error; ?></p></div>
-	<script type="text/javascript" src="<?php echo $HOME; ?>js/index.min.js?v=<?php echo VERSION; ?>" defer></script>
+	<script type="text/javascript" src="<?php echo SITE_RSC; ?>js/index.min.js?v=<?php echo VERSION; ?>" defer></script>
 	<?php
 endif;
 echo "</div>";

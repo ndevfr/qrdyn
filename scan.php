@@ -5,6 +5,7 @@
 <div class="qrscan"><canvas id="canvas" width="280" height="280"></canvas></div>
 <a id="showVideo" class="buttonscan"><?php _e("Scanner"); ?></a>
 <div id="outputMessage"></div>
+<div id="errorMsg"></div>
 <script type="text/javascript">
 	var video = document.createElement("video");
     var canvasElement = document.getElementById("canvas");

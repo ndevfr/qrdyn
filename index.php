@@ -4,7 +4,8 @@
 	$path = dirname(__FILE__).'/';
 
 	$uri_parts = explode('?', $_SERVER['REQUEST_URI'], 2);
-	$url = str_replace(SITE_URL, "", "https://".$_SERVER['HTTP_HOST'].$uri_parts[0]);
+	$protocol = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://';
+	$url = str_replace(SITE_URL, "", $protocol.$_SERVER['HTTP_HOST'].$uri_parts[0]);
 		
 	$regex = '#^(?|([0-9a-zA-Z]+)(*MARK:open)
 				  |v/([0-9a-zA-Z]+)(*MARK:manage)
@@ -35,7 +36,7 @@
 		case "c/":
 			$file = "edit.php";
 			break;
-		case "qr/":
+		case "g/":
 			$file = "genqr.php";
 			break;
 		// MATCHES

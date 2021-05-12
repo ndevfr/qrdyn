@@ -1,16 +1,13 @@
 <?php 
-include("header.php");
-echo '<div id="main">';
-if(!empty($_GET['id'])){
-	$id = $_GET['id'];
-	$modif = true;
-} else {
-	$id = "";
-	$modif = false;
-}
-if(connected()):
-	if((($modif)&&(in_array($id, userLinks())))||(!$modif)):
-		$oldaction = "";
+if(connected()){
+	if(!empty($_GET['id'])){
+		$id = $_GET['id'];
+		$modif = true;
+	} else {
+		$id = "";
+		$modif = false;
+	}
+	if((($modif)&&(in_array($id, userLinks())))||(!$modif)){
 		if($modif){
 			$infos = linkInfos($id);
 			$title = $infos['title'];
@@ -33,7 +30,6 @@ if(connected()):
 					$postlinks .= addslashes(noQuotes(utf8_decode($_POST['inputtitlelink'][$i])))."|".$_POST['inputurllink'][$i]."\r\n";
 				}
 			}
-			echo $postlinks;
 			if($modif){
 				$sql = "UPDATE `".DB_PREF."links` SET title = '$posttitle', description = '$postdescription', links = '$postlinks' WHERE id = '$id';";
 			} else {
@@ -42,6 +38,12 @@ if(connected()):
 			if(!sql_exec($sql)) die(__("Erreur lors de l'enregistrement."));
 			header('Location: '.SITE_URL.'v/'.$id);
 		}
+	}
+}
+include("header.php");
+echo '<div id="main">';
+if(connected()):
+	if((($modif)&&(in_array($id, userLinks())))||(!$modif)):
 		?>
 	    	<form action="" method="POST" enctype="multipart/form-data" id="creer">
 	    	<div class="title"><?php _e("Titre du QR-code dynamique :"); ?></div>
@@ -62,7 +64,7 @@ if(connected()):
 	    	<table style="width:100%"><tr><td><input type="button" name="cancel" value="Annuler" class="cancel-button" onclick="returnHome();" /></td><td><input type="submit" name="sending" value="Envoyer" class="submit-button" /></td></tr></table>
 	    	</form>
 	    	<div id="errors"></div>
-	    	<script type="text/javascript" src="<?php echo SITE_URL; ?>js/edit.min.js?v=<?php echo VERSION; ?>"></script>
+	    	<script type="text/javascript" src="<?php echo SITE_RSC; ?>js/edit.min.js?v=<?php echo VERSION; ?>"></script>
 		<?php
 	else:
 		echo __("QR-code dynamique inexistant ou appartenant à un autre utilisateur.").'<br /><a href="'.SITE_URL.'">'.__("Retour à la page d'accueil")."</a>";

@@ -39,6 +39,7 @@ if(!empty($_POST['install'])){
 		$_POST['site_url'] = $_POST['site_url']."/";
 	}
 	fwrite($file,"const SITE_URL = '".$_POST['site_url']."';\r\n");
+	fwrite($file,"const SITE_RSC = '".$_POST['site_rsc']."';\r\n");
 	fwrite($file,"const SITE_LOGO = '".$_POST['site_logo']."';\r\n");
 	fwrite($file,"const SITE_COLOR = '".$_POST['site_color']."';\r\n");
 	fwrite($file,"// Salt pour les mots de passe\r\n");
@@ -48,6 +49,7 @@ if(!empty($_POST['install'])){
 	fwrite($file,"const TOKEN_ALLOW = ".$_POST['site_token'].";\r\n");
 	fwrite($file,"// Inscriptions possibles\r\n");
 	fwrite($file,"const INSC_OPEN = ".$_POST['site_insc'].";\r\n");
+	fwrite($file,"?>\r\n");
 	fclose($file);
 	if(file_exists("config.php")){
 		$result .= "Fichier de configuration config.php créé.<br/>";
@@ -55,13 +57,13 @@ if(!empty($_POST['install'])){
 		$result .= "Erreur lors de la création du fichier de configuration config.php.<br />";
 	}
 	$link = mysqli_connect($_POST['bdd_host'], $_POST['bdd_user'], $_POST['bdd_pass'], $_POST['bdd_name']);
-	$sql = "CREATE TABLE `".$_POST['bdd_pref']."links` (`id` VARCHAR(255) NOT NULL, `title` VARCHAR(255) NOT NULL, `description` VARCHAR(255) NOT NULL, `links` MEDIUMTEXT NOT NULL, `owner` INT(11) NOT NULL, `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`)) DEFAULT CHARSET=utf16;";
+	$sql = "CREATE TABLE `".$_POST['bdd_pref']."links` (`id` VARCHAR(255) NOT NULL, `title` VARCHAR(255) NOT NULL, `description` VARCHAR(255) NOT NULL, `links` MEDIUMTEXT NOT NULL, `owner` INT(11) NOT NULL, `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`)) DEFAULT CHARSET=utf8;";
 	if($link->query($sql) == true){
 		$result .= "Table de données ".$_POST['bdd_pref']."links créée.<br />";
 	} else {
 		$result .= "Erreur lors de la création de la table de données ".$_POST['bdd_pref']."links.<br />";
 	}
-	$sql = "CREATE TABLE `".$_POST['bdd_pref']."users` (`id` INT(11) NOT NULL AUTO_INCREMENT, `mail` VARCHAR(255) NOT NULL, `password` VARCHAR(255) NOT NULL, `token`  VARCHAR(255) NOT NUL, PRIMARY KEY (`id`)) DEFAULT CHARSET=utf16;";
+	$sql = "CREATE TABLE `".$_POST['bdd_pref']."users` (`id` INT(11) NOT NULL AUTO_INCREMENT, `mail` VARCHAR(255) NOT NULL, `password` VARCHAR(255) NOT NULL, `token`  VARCHAR(255) NOT NULL, PRIMARY KEY (`id`)) DEFAULT CHARSET=utf8;";
 	if($link->query($sql) == true){
 		$result .= "Table de données ".$_POST['bdd_pref']."users créée.<br />";
 	} else {
@@ -69,14 +71,14 @@ if(!empty($_POST['install'])){
 	}
 	$password = password_hash($_POST['site_pref'].$_POST['account_pass'].$_POST['site_suff'], PASSWORD_BCRYPT);
 	$sql = "INSERT INTO `".$_POST['bdd_pref']."users` (`mail`, `password`) VALUES
-	('".$_POST['account_mail']."', '.$password.')";
+	('".$_POST['account_mail']."', '".$password."')";
 	if($link->query($sql) == true){
-		$result .= "Utilisateur ".$_POST['account_mail']." créé.";
+		$result .= "Utilisateur ".$_POST['account_mail']." créé.<br />";
 	} else {
 		$result .= "Erreur lors de la création de l'utilisateur ".$_POST['account_mail'].".<br />";
 	}
 	mysqli_close($link);
-	$result .= "N'ouvliez pas de supprimer ce fichier install.php du serveur une fois l'installation effectuée.";
+	$result .= "N'oubliez pas de supprimer ce fichier install.php du serveur une fois l'installation effectuée.";
 }
 echo '<div id="main">';
 echo '<strong>'.$result.'</strong>';
@@ -92,7 +94,8 @@ echo __("Mail")." : <input type='text' id='account_mail' name='account_mail' cla
 echo __("Mot de passe")." : <input type='text' id='account_pass' name='account_pass' class='field' placeholder='motdepasse' value='".$_POST['account_pass']."' />";
 echo '<h2>'.__("Personnalisation").'</h2>';
 echo __("Nom du site")." : <input type='text' id='site_title' name='site_title' class='field' placeholder='qr.desmaths.fr' value='".$_POST['site_title']."' /><br />";
-echo __("URL du site")." : <input type='text' id='site_url' name='site_url' class='field' placeholder='https://qr.desmaths.fr/' value='".$_POST['site_url']."' /><br />";
+echo __("URL du site (mettre 'index.php/' en fin d'URL chez Free)")." : <input type='text' id='site_url' name='site_url' class='field' placeholder='https://qr.desmaths.fr/' value='".$_POST['site_url']."' /><br />";
+echo __("URL des ressources du site (url vers le dossier)")." : <input type='text' id='site_rsc' name='site_rsc' class='field' placeholder='https://qr.desmaths.fr/' value='".$_POST['site_rsc']."' /><br />";
 echo __("Logo du site")." : <input type='text' id='site_logo' name='site_logo' class='field' placeholder='https://qr.desmaths.fr/logo.png' value='".$_POST['site_logo']."' /><br />";
 echo __("Couleur principale (format hexadecimal)")." : <input type='text' id='site_color' name='site_color' class='field' placeholder='#d92341' value='".$_POST['site_color']."' /><br />";
 echo __("Inscriptions possibles")." : <select id='site_insc' name='site_insc' class='field'><option value='false'>Non</option><option value='true'>Oui</option></select>";
