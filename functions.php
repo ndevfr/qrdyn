@@ -1,6 +1,6 @@
 <?php
 // Informations generales
-const VERSION = '1.0.21';
+const VERSION = '1.0.25';
 include("config.php");
 
 $plugins_home = array();
@@ -41,11 +41,17 @@ function onlyTwoChars($str){
 }
 
 function str2bdd($str){
+	return $str;
+}
+
+function str2html($str){
 	return htmlentities($str);
 }
 
-function sql_select($sql) {
+function sql_select($table, $where, $order) {
 	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	$where[1] = $link->real_escape_string($where[1]);
+	$sql = "SELECT * FROM `".DB_PREF.$table."` WHERE ".$where[0]." = '".$where[1]."' ".$order.";";
 	$result = $link->query($sql);
 	$results = array();
 	while($r = $result->fetch_array()){
@@ -55,8 +61,10 @@ function sql_select($sql) {
 	return $results;
 }
 
-function sql_select_unique($sql) {
+function sql_select_unique($table, $where) {
 	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	$where[1] = $link->real_escape_string($where[1]);
+	$sql = "SELECT * FROM `".DB_PREF.$table."` WHERE ".$where[0]." = '".$where[1]."';";
 	$result = $link->query($sql);
 	if($result->num_rows){
 		$r = $result->fetch_array();
@@ -79,8 +87,56 @@ function sql_exec($sql) {
 	}
 }
 
-function sql_count($sql) {
+function sql_insert($table, $vars){
 	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	foreach($vars as $k => $v){
+		$vars[$k] = $link->real_escape_string($vars[$k]);
+	}
+	echo $sql = "INSERT INTO `".DB_PREF.$table."` (".implode(", ", array_keys($vars)).") VALUES ('".implode("','", array_values($vars))."');";
+	if($result = $link->query($sql)){
+		mysqli_close($link);
+		return true;
+	} else {
+		mysqli_close($link);
+		return false;
+	}
+}
+
+function sql_update($table, $vars, $where){
+	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	$changes = array();
+	foreach($vars as $k => $v){
+		$changes[] = $k." = '".$link->real_escape_string($vars[$k])."'";
+	}
+	$where[1] = $link->real_escape_string($where[1]);
+	$sql = "UPDATE `".DB_PREF.$table."` SET ".implode(",", array_values($changes))." WHERE ".$where[0]." = '".$where[1]."';";
+	if($result = $link->query($sql)){
+		mysqli_close($link);
+		return true;
+	} else {
+		mysqli_close($link);
+		return false;
+	}
+}
+
+function sql_delete($table, $where){
+	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	$changes = array();
+	$where[1] = $link->real_escape_string($where[1]);
+	$sql = "DELETE FROM `".DB_PREF.$table."` WHERE ".$where[0]." = '".$where[1]."';";
+	if($result = $link->query($sql)){
+		mysqli_close($link);
+		return true;
+	} else {
+		mysqli_close($link);
+		return false;
+	}
+}
+
+function sql_count($table, $where) {
+	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	$where[1] = $link->real_escape_string($where[1]);
+	$sql = "SELECT * FROM `".DB_PREF.$table."` WHERE ".$where[0]." = '".$where[1]."';";
 	$result = $link->query($sql);
 	mysqli_close($link);
 	return $result->num_rows;
@@ -89,7 +145,7 @@ function sql_count($sql) {
 function connect($mail, $pass) {
 	global $error;
 	$mail = addslashes(strtolower($mail));
-	if($user = sql_select_unique("SELECT * FROM `".DB_PREF."users` WHERE mail = '$mail';")){
+	if($user = sql_select_unique("users", array("mail", $mail))){
 		$id = $user['id'];
 		$hash = $user['password'];
 		if(password_verify(PREF.$pass.SUFF, $hash)){
@@ -120,7 +176,7 @@ function userId(){
 }
 
 function userInfo($id) {
-	if($user = sql_select_unique("SELECT * FROM `".DB_PREF."users` WHERE id = '$id';")){
+	if($user = sql_select_unique("users", array("id", $id))){
 		return $user;
 	} else {
 		return false;
@@ -134,7 +190,7 @@ function userLinks($id = false, $order = "time") {
 		}
 	}
 	if($id != false) {
-		$links = sql_select("SELECT * FROM `".DB_PREF."links` WHERE owner = '$id' ORDER BY $order DESC;");
+		$links = sql_select("links", array("owner", $id), "ORDER BY ".$order." DESC;");
 		$linksId = array();
 		foreach($links as $l){
 			$linksId[] = $l['id'];
@@ -146,18 +202,19 @@ function userLinks($id = false, $order = "time") {
 }
 
 function linkInfos($id = false){
-	if($qr = sql_select_unique("SELECT * FROM `".DB_PREF."links` WHERE id = '$id';")){
+	if($qr = sql_select_unique("links", array("id", $id))){
 		$links = explode("\r\n", $qr['links']);
 		$newlinks = array();
 		foreach($links as $link){
 			$l = explode("|", $link);
 			if(!empty($l[1])){
-				$l[0] = utf8_encode($l[0]);
+				$l[0] = str2html(utf8_encode($l[0]));
+				$l[1] = str2html($l[1]);
 				$newlinks[] = $l;
 			}
 		}
-		$qr['title'] = utf8_encode($qr['title']);
-		$qr['description'] = utf8_encode($qr['description']);
+		$qr['title'] = str2html(utf8_encode($qr['title']));
+		$qr['description'] = str2html(utf8_encode($qr['description']));
 		$qr['links'] = $newlinks;
 		return $qr;
 	} else {
@@ -167,7 +224,41 @@ function linkInfos($id = false){
 
 function removeLink($id){
 	global $uploaddir;
-	return sql_exec("DELETE FROM `".DB_PREF."links` WHERE id = '$id';");
+	return sql_delete("links", array("id", $id));
+}
+
+function removeAccount($id = false){
+	global $error;
+	if($id == false){
+		if(!empty($_SESSION['user'])) {
+			$id = $_SESSION['user'];
+		}
+	}
+	if($id != false){
+		$links = userLinks($id);
+		$ok = true;
+		foreach($links as $lid){
+			if(!removeLink($lid)){
+				$ok = false;
+			}
+		}
+		if($ok){
+			if(!sql_delete("users", array("id", $id))){
+				$ok = false;
+			}
+		}
+		if($ok){
+			$error = __("Compte supprimé.");
+			if($id == $_SESSION['user']){
+				$_SESSION = array();
+			}
+		} else {
+			$error = __("Problème lors de la suppression.");
+		}
+	} else {
+		$error = __("Problème lors de la suppression.");
+		return false;
+	}
 }
 
 function newId(){
@@ -180,7 +271,7 @@ function newId(){
 }
 
 function uniqueId($id){
-	$idExists = sql_count("SELECT * FROM `".DB_PREF."links` WHERE id = '$id';");
+	$idExists = sql_count("links", array("id", $id));
 	if($idExists == 0){
 		return true;
 	} else {
@@ -287,7 +378,7 @@ function creation_token(){
 
 function connect_token($token) {
 	if(!empty($token)){
-		if($user = sql_select_unique("SELECT * FROM `".DB_PREF."users` WHERE token = '$token';")){
+		if($user = sql_select_unique("users", array("token", $token))){
 			$_SESSION['user'] = $user['id'];
 			$_SESSION['name'] = $user['mail'];
 			return true;

@@ -1,3 +1,7 @@
+# V1.0.25
+- Correction de l'exécution de code javascript dans le code html affiché
+- Modification des fonctions sql_ (select, select_unique, insert, update, delete) pour utiliser real_escape_string
+
 # V1.0.21
 - Correction de l'enregistrement de code javascript dans les informations des QR-codes
 

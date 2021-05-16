@@ -22,20 +22,19 @@ if(connected()){
 					$id = newId();
 				}
 			}
-			$posttitle = addslashes(noBreakLines(noQuotes(utf8_decode(str2bdd($_POST['inputtitle'])))));
-			$postdescription = addslashes(noQuotes(utf8_decode(str2bdd($_POST['inputdescription']))));
+			$posttitle = addslashes(noBreakLines(noQuotes(utf8_decode($_POST['inputtitle']))));
+			$postdescription = addslashes(noQuotes(utf8_decode($_POST['inputdescription'])));
 			$postlinks = "";
 			for($i=0; $i<sizeof($_POST['inputurllink']); $i++){
 				if(!empty($_POST['inputurllink'][$i])){
-					$postlinks .= addslashes(noQuotes(utf8_decode(str2bdd($_POST['inputtitlelink'][$i]))))."|".str2bdd($_POST['inputurllink'][$i])."\r\n";
+					$postlinks .= addslashes(noQuotes(utf8_decode($_POST['inputtitlelink'][$i])))."|".addslashes(noQuotes(utf8_decode($_POST['inputurllink'][$i])))."\r\n";
 				}
 			}
 			if($modif){
-				$sql = "UPDATE `".DB_PREF."links` SET title = '$posttitle', description = '$postdescription', links = '$postlinks' WHERE id = '$id';";
+				if(!sql_update("links", array("title" => $posttitle, "description" => $postdescription, "links" => $postlinks, "owner" => $user), array("id", $id))) die(__("Erreur lors de l'enregistrement."));
 			} else {
-				$sql = "INSERT INTO `".DB_PREF."links` (id, title, description, links, owner) VALUES ('$id', '$posttitle', '$postdescription', '$postlinks', $user);";
+				if(!sql_insert("links", array("id" => $id, "title" => $posttitle, "description" => $postdescription,"links" => $postlinks, "owner" => $user))) die(__("Erreur lors de l'enregistrement."));
 			}
-			if(!sql_exec($sql)) die(__("Erreur lors de l'enregistrement."));
 			header('Location: '.SITE_URL.'v/'.$id);
 		}
 	}

@@ -11,7 +11,7 @@ if(connected()):
 		if(!empty($_POST['password'])){
 			if($_POST['password'] == $_POST['password2']){
 				$password = password_hash(PREF.$_POST['password'].SUFF, PASSWORD_BCRYPT);
-				sql_exec("UPDATE `".DB_PREF."users` SET password = '$password' WHERE id = $id;");
+				sql_update("users", array("password", $password), array("id", $id));
 			} else {
 				$error = __("Les deux mots de passe sont différents.");
 			}
@@ -19,7 +19,7 @@ if(connected()):
 		if( $_POST['mail'] != $mail ){
 			if(filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)){
 				$mail = addslashes(strtolower($_POST['mail']));
-				sql_exec("UPDATE `".DB_PREF."users` SET mail = '$mail' WHERE id = $id;");
+				sql_update("users", array("mail", $mail), array("id", $id));
 			} else {
 				$error = __("L'adresse mail n'est pas valide.");
 			}
@@ -27,7 +27,7 @@ if(connected()):
 	}
 	if(!empty($_POST['regenToken'])){
 		$newToken = creation_token();
-		sql_exec("UPDATE `".DB_PREF."users` SET token = '$newToken' WHERE id = $id;");
+		sql_update("users", array("token", $newToken), array("id", $id));
 	}
 	if(!empty($_POST['removeAccount'])){
 		if(!empty($_POST['password'])){
