@@ -22,12 +22,12 @@ if(connected()){
 					$id = newId();
 				}
 			}
-			$posttitle = addslashes(noBreakLines(noQuotes(utf8_decode($_POST['inputtitle']))));
-			$postdescription = addslashes(noQuotes(utf8_decode($_POST['inputdescription'])));
+			$posttitle = addslashes(noBreakLines(noQuotes(utf8_decode(str2bdd($_POST['inputtitle'])))));
+			$postdescription = addslashes(noQuotes(utf8_decode(str2bdd($_POST['inputdescription']))));
 			$postlinks = "";
 			for($i=0; $i<sizeof($_POST['inputurllink']); $i++){
 				if(!empty($_POST['inputurllink'][$i])){
-					$postlinks .= addslashes(noQuotes(utf8_decode($_POST['inputtitlelink'][$i])))."|".$_POST['inputurllink'][$i]."\r\n";
+					$postlinks .= addslashes(noQuotes(utf8_decode(str2bdd($_POST['inputtitlelink'][$i]))))."|".str2bdd($_POST['inputurllink'][$i])."\r\n";
 				}
 			}
 			if($modif){

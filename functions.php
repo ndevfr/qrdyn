@@ -1,6 +1,6 @@
 <?php
 // Informations generales
-const VERSION = '1.0.20';
+const VERSION = '1.0.21';
 include("config.php");
 
 $plugins_home = array();
@@ -38,6 +38,10 @@ function onlyOneLetter($str){
 
 function onlyTwoChars($str){
 	return substr(onlyAlphaNum($str),0,2);
+}
+
+function str2bdd($str){
+	return htmlentities($str);
 }
 
 function sql_select($sql) {

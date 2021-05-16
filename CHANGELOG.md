@@ -1,3 +1,6 @@
+# V1.0.21
+- Correction de l'enregistrement de code javascript dans les informations des QR-codes
+
 # V1.0.20
 - Correction du fichier install.php (bugs divers, passage en utf8, ajout de "SITE_RSC" dans config.php ; pour mettre à jour config.php à la main, rajouter une ligne "SITE_RSC" identique à "SITE_URL")
 - Prise en charge du mode http (et non https) si l'URL du site ne le contient pas
