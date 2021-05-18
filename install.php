@@ -57,7 +57,7 @@ if(!empty($_POST['install'])){
 		$result .= "Erreur lors de la création du fichier de configuration config.php.<br />";
 	}
 	$link = mysqli_connect($_POST['bdd_host'], $_POST['bdd_user'], $_POST['bdd_pass'], $_POST['bdd_name']);
-	$sql = "CREATE TABLE `".$_POST['bdd_pref']."links` (`id` VARCHAR(255) NOT NULL, `title` VARCHAR(255) NOT NULL, `description` VARCHAR(255) NOT NULL, `links` MEDIUMTEXT NOT NULL, `owner` INT(11) NOT NULL, `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`)) DEFAULT CHARSET=utf8;";
+	$sql = "CREATE TABLE `".$_POST['bdd_pref']."links` (`id` VARCHAR(255) NOT NULL, `title` VARCHAR(255) NOT NULL, `description` VARCHAR(255) NOT NULL, `links` MEDIUMTEXT NOT NULL, `owner` INT(11) NOT NULL, `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, INDEX (`id`)) DEFAULT CHARSET=utf8;";
 	if($link->query($sql) == true){
 		$result .= "Table de données ".$_POST['bdd_pref']."links créée.<br />";
 	} else {
