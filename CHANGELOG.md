@@ -1,3 +1,6 @@
+# V1.0.26
+- Ajout des modifications proposées par Arnaud Durand (Mathix.org) ; notamment le champ de recherche
+
 # V1.0.25
 - Correction de l'exécution de code javascript dans le code html affiché
 - Modification des fonctions sql_ (select, select_unique, insert, update, delete) pour utiliser real_escape_string

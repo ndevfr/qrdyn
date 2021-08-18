@@ -37,6 +37,12 @@ body{
 #main{
 	padding:20px;
 }
+#searchbar{
+	display:block;
+	width:100%;
+	padding:10px;
+	margin-bottom:10px;
+}
 #page-back{
 	width:100%;
 	padding-top:40px;

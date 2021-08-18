@@ -48,6 +48,7 @@ if(connected()):
 	<a href="g/" class="menu-button"><?php _e("Créer un QR-code statique"); ?></a>
 	<a href="compte/" class="menu-button"><?php _e("Gérer mon compte"); ?></a>
 	<a href="scan/" class="menu-button"><?php _e("Scanner un QR-code"); ?></a>
+	<input type="text" onkeyup="recherche(this.value);" id="searchbar" placeholder="Rechercher parmi les liens">
 	<?php
 	foreach($plugins_home_connected as $home){
 		foreach($home as $h){
@@ -96,6 +97,23 @@ if(connected()):
 						}
 					});
 				});
+			}
+		}
+	}
+	
+	function recherche(txt){
+		var tab=document.querySelectorAll("li.links-list");
+		if (txt.length>2){
+			for (i=0;i<tab.length;i++){
+				if (((tab[i].innerText).toLowerCase()).indexOf(txt.toLowerCase())==-1){
+					tab[i].style.display='none';
+				} else {
+					tab[i].style.display='';
+				}
+			}
+		} else {
+			for (i=0;i<tab.length;i++){
+				tab[i].style.display='';
 			}
 		}
 	}
